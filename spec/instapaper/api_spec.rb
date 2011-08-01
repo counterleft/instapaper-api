@@ -30,7 +30,7 @@ describe "Instapaper API" do
 
   it "lists bookmarks" do
     response = Typhoeus::Response.new(:code => 200, :body => BOOKMARKS_JSON)
-    @hydra.stub(:post, [@uri, "/bookmarks/list"].join).and_return(response)
+    @hydra.stub(:post, "#{@uri}/bookmarks/list").and_return(response)
     @api.hydra = @hydra
     @api.list_bookmarks.should be_equal(response.body)
   end

@@ -114,7 +114,7 @@ module Instapaper
     end
 
     def send_request(path, options = {})
-      uri = [BASE_URI, path].join
+      uri = "#{BASE_URI}#{path}"
       req = Typhoeus::Request.new(uri, :method => :post, :params => options)
       oauth_header = SimpleOAuth::Header.new(req.method, uri, options, @oauth_options)
       req.headers.merge!({"Authorization" => oauth_header.to_s})
