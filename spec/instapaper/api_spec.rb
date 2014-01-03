@@ -1,5 +1,4 @@
 require 'simple_oauth'
-require 'typhoeus'
 require 'instapaper'
 
 describe "Instapaper API" do
@@ -10,9 +9,8 @@ describe "Instapaper API" do
     @secret = ENV['OAUTH_CONSUMER_SECRET']
     @username = ENV['INSTAPAPER_USERNAME']
     @password = ENV['INSTAPAPER_PASSWORD']
-    @hydra = Typhoeus::Hydra.new
     @uri = Instapaper::API::BASE_URI
-    @api = Instapaper::API.new(@key, @secret, @username,@password)
+    @api = Instapaper::API.new(@key, @secret, @username, @password)
   end
 
   it "authenticates a user" do
@@ -29,9 +27,6 @@ describe "Instapaper API" do
   end
 
   it "lists bookmarks" do
-    response = Typhoeus::Response.new(:code => 200, :body => BOOKMARKS_JSON)
-    @hydra.stub(:post, "#{@uri}/bookmarks/list").and_return(response)
-    @api.hydra = @hydra
     @api.list_bookmarks.should be_equal(response.body)
   end
 end

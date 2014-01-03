@@ -18,13 +18,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency("typhoeus", "~> 0.2.4")
+  s.add_dependency("faraday", "~> 0.8.8")
   s.add_dependency("simple_oauth", "~> 0.1.5")
   s.add_dependency("addressable", "~> 2.2.6")
 
-  s.add_development_dependency("guard", "~> 0.5.1")
-  s.add_development_dependency("rb-fsevent", "~> 0.4.1")
-  s.add_development_dependency("rspec", "~> 2.6.0")
-  s.add_development_dependency("guard-rspec", "~> 0.4.0")
-  s.add_development_dependency("growl", "~> 1.0.3")
+  s.add_development_dependency("rspec", "~> 2.14.1")
+  s.add_development_dependency("webmock", "~> 1.16.1")
 end
