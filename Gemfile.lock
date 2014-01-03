@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    instapaper-api (0.0.1)
+    instapaper-api (0.0.2)
       addressable (~> 2.2.6)
       faraday (~> 0.8.8)
       simple_oauth (~> 0.1.5)

@@ -1,10 +1,11 @@
-require 'faraday'
-require 'simple_oauth'
-require 'addressable/uri'
+require "faraday"
+require "simple_oauth"
+require "addressable/uri"
+require_relative "authentication_error"
 
 module Instapaper
   class API
-    BASE_URI = "https://www.instapaper.com"
+    BASE_URI = "https://www.instapaper.com/api/1"
 
     attr_writer :http_client
 
@@ -15,7 +16,7 @@ module Instapaper
     end
 
     def get_access_token
-      path = "/api/1/oauth/access_token"
+      path = "/oauth/access_token"
       options = {
         x_auth_username: @oauth_creds[:username],
         x_auth_password: @oauth_creds[:password],
@@ -35,69 +36,69 @@ module Instapaper
     end
 
     def list_bookmarks(options = {})
-      response = call("/api/1/bookmarks/list", options)
+      response = call("/bookmarks/list", options)
       response.body
     end
 
     def add_bookmark(options = {})
-      response = call("/api/1/bookmarks/add", options)
+      response = call("/bookmarks/add", options)
       response.body
     end
 
     def delete_bookmark(bookmark_id)
-      response = call("/api/1/bookmarks/delete", bookmark_id: bookmark_id)
+      response = call("/bookmarks/delete", bookmark_id: bookmark_id)
       response.body
     end
 
     def star_bookmark(bookmark_id)
-      response = call("/api/1/bookmarks/star", bookmark_id: bookmark_id)
+      response = call("/bookmarks/star", bookmark_id: bookmark_id)
       response.body
     end
 
     def unstar_bookmark(bookmark_id)
-      response = call("/api/1/bookmarks/unstar", bookmark_id: bookmark_id)
+      response = call("/bookmarks/unstar", bookmark_id: bookmark_id)
       response.body
     end
 
     def archive_bookmark(bookmark_id)
-      response = call("/api/1/bookmarks/archive", bookmark_id: bookmark_id)
+      response = call("/bookmarks/archive", bookmark_id: bookmark_id)
       response.body
     end
 
     def unarchive_bookmark(bookmark_id)
-      response = call("/api/1/bookmarks/unarchive", bookmark_id: bookmark_id)
+      response = call("/bookmarks/unarchive", bookmark_id: bookmark_id)
       response.body
     end
 
     def move_bookmark(bookmark_id, folder_id)
-      response = call("/api/1/bookmarks/move", bookmark_id: bookmark_id, folder_id: folder_id)
+      response = call("/bookmarks/move", bookmark_id: bookmark_id, folder_id: folder_id)
       response.body
     end
 
     def get_bookmark_text(bookmark_id)
-      response = call("/api/1/bookmarks/get_text", bookmark_id: bookmark_id)
+      response = call("/bookmarks/get_text", bookmark_id: bookmark_id)
       response.body
     end
 
     def list_folders
-      response = call("/api/1/folders/list")
+      response = call("/folders/list")
       response.body
     end
 
     def add_folder(title)
-      response = call("/api/1/folders/add", title: title)
+      response = call("/folders/add", title: title)
       response.body
     end
 
     def delete_folder(folder_id)
-      response = call("/api/1/folders/delete", folder_id: folder_id)
+      response = call("/folders/delete", folder_id: folder_id)
       response.body
     end
 
     def set_folder_order(order)
       value = []
       order.each { |folder_id, position| value.push("#{folder_id}:#{position}") }
-      response = call("/api/1/folders/set_order", order: value.join(","))
+      response = call("/folders/set_order", order: value.join(","))
       response.body
     end
 
@@ -122,8 +123,5 @@ module Instapaper
         r.headers["Authorization"] = oauth_header.to_s
       end
     end
-  end
-
-  class AuthenticationError < StandardError
   end
 end
